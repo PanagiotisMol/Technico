@@ -21,5 +21,5 @@ public class PropertyOwner
 
     public List<PropertyItem>? PropertyItems { get; set; }
     public List<PropertyOwner>? RepairDone { get; set; }
-    //LIST OF REPAIRS
+    
 }

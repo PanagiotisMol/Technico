@@ -4,21 +4,21 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Technico.Enums;
 
 namespace Technico.Models;
 
 public class Repair
 {
     public DateTime StartDate { get; set; }
-    public enum TypeOfRepair { Painting, Insulation, Frames, plumbing, electricalWork }
+    public  TypeOfRepair  RepairType { get; set; }
 
     public string RepairDescription { get; set; } = null!;
     public string RepairAddress { get; set; } = null!;
 
-    public enum StatusOfTheRepair { Pending, Inprogress, Complete , Default }
+    public  StatusOfTheRepair RepairStatus { get; set; }
     public int CostOfRepair { get; set; }
     public int OwnerVAT {  get; set; }
-    
 
-    
+    public TypeOfProperty PropertyType { get; set; }
 }
