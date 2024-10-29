@@ -1,75 +1,140 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Technico.DataBase;
+using Technico.Enums;
+using Technico.Models;
 
 namespace Technico.Service;
 
 public class PropertyItemService
 {
-    //TODO UPDATE , DELETE,VIEW
 
-    public string PropertIdNumber { get; set; } = null!;
-    public string PropertyAddress { get; set; } = null!;
-    public string VATNumber { get; set; } =null!;
+    public TempData TempData = new TempData();
 
-    public class ValidationService
-    {
-        public static List<string> ValidateUser(PropertyItemService user)
+    
+    
+        private List<string> ValidateItem(PropertyItem item)
         {
             var errors = new List<string>();
+            
 
-            // Validate PropertyAddress
-            if (string.IsNullOrWhiteSpace(user.PropertyAddress))
+            // Validate PropertyIdNumber
+            if (string.IsNullOrWhiteSpace(item.PropertyIdNumber))
             {
-                errors.Add("Password is required.");
+                errors.Add("PropertyIdNumber is required.");
             }
-
-            else if (!user.PropertyAddress.Any(char.IsUpper))
+            else if (item.PropertyIdNumber.Length  != 4 )
             {
-                errors.Add("Password must contain at least one uppercase letter.");
+                errors.Add("PropertyIdNumber must be  4 digits.");
             }
-            else if (!user.PropertyAddress.Any(char.IsLower))
+            if (!long.TryParse(item.YearOfConstruction, out _))
             {
-                errors.Add("Password must contain at least one lowercase letter.");
-            }
-            else if (!user.PropertyAddress.Any(char.IsDigit))
-            {
-                errors.Add("Password must contain at least one number.");
+                errors.Add("PropertyIdNumber  must be   numeric.");
             }
 
-            //Validate OwnersVatNumber
-            if (string.IsNullOrWhiteSpace(user.VATNumber))
+
+            // Validate PropertyAdress
+            if (string.IsNullOrWhiteSpace(item.PropertyAddress))
+            {
+                errors.Add("PropertyAddress is required.");
+            }
+            
+
+            //Validate YearOfConstruction
+            if (string.IsNullOrWhiteSpace(item.YearOfConstruction))
+            {
+                errors.Add("YearOfConstruction is required.");
+
+            }
+            if (!long.TryParse(item.YearOfConstruction, out _))
+            {
+                errors.Add("YearOfConstruction  must be numeric.");
+            }
+
+            //Validate VatNumber
+            if (string.IsNullOrWhiteSpace(item.OwnerVAT))
             {
                 errors.Add("VAT number is required.");
 
             }
 
-            // Check if the Owners VAT number is exactly 9 digits long and numeric
-            if (user.VATNumber.Length != 9 || !long.TryParse(user.VATNumber, out _))
+            // Check if the VAT number is exactly 9 digits long and numeric
+            if (item.OwnerVAT.Length != 9 || !long.TryParse(item.OwnerVAT, out _))
             {
                 errors.Add("VAT number must be exactly 9 digits long and numeric.");
 
             }
 
-            //Validate PropertysIDNumber
-            if (string.IsNullOrWhiteSpace(user.PropertIdNumber))
-            {
-                errors.Add("VAT number is required.");
-
-            }
-
-            // Check if the Properys Id number is exactly 4 digits long and numeric
-            if (user.PropertIdNumber.Length != 4 || !long.TryParse(user.PropertIdNumber, out _))
-            {
-                errors.Add("VAT number must be exactly 4 digits long and numeric.");
-
-            }
-
             return errors;
+
+            
         }
+        public PropertyItem? CreateItem(PropertyItem item)
+        {
+            var errors = ValidateItem(item);
+            if (errors.Count > 0)
+            {
+                return null;
+            }
 
+            TempData.PropertyItems.Add(item);
 
-    }
+            return item;
+        }
+        public PropertyItem? UpdateItem(PropertyItem item)
+        {
+            var errors = ValidateItem(item);
+            if (errors.Count > 0)
+            {
+                return null;
+            }
+
+            var selectedItem = TempData.PropertyItems.Find(x => x.OwnerVAT == item.OwnerVAT);
+            if (selectedItem != null)
+            {
+                TempData.PropertyItems.Remove(selectedItem);
+            }
+            TempData.PropertyItems.Add(item);
+            return item;
+        }
+        public PropertyItem? DeleteItem(PropertyItem item)
+        {
+            var errors = ValidateItem(item);
+            if (errors.Count > 0)
+            {
+                return null;
+            }
+            var selectedItem = TempData.PropertyItems.Find(x => x.OwnerVAT == item.OwnerVAT);
+            if (selectedItem != null)
+            {
+                TempData.PropertyItems.Remove(selectedItem);
+            }
+            return item;
+        }
+        public List<PropertyItem> GetAll()
+        {
+            return TempData.PropertyItems;
+
+        }
+        public PropertyItem? GetOne(string VAT)
+        {
+            var selectedItem = TempData.PropertyItems.Find(x => x.OwnerVAT == VAT);
+
+            return selectedItem;
+        }
 }
+
+
+
+    
+
+
+
+
+   
+    
+

@@ -2,233 +2,98 @@
 using System.Runtime.ConstrainedExecution;
 using Technico.Enums;
 using Technico.Models;
+using Technico.Service;
 using static Technico.Models.PropertyOwner;
 using static Technico.Models.Repair;
 
 
-//------------------------PROPERTYOWNER----------------------------
-var PropertyOwner = new PropertyOwner()
+
+public class Program
 {
-    VATNumber = 123456789,
-    FirstName = "John",
-    LastName = "Doe",
-    Address = "123 Main St, Springfield",
-    TelephoneNumber = 5551234,
-    Email = "john.doe@example.com",
-    Password = "password123",
-    RepairDone = { },
-    PropertyItems = { },
-    Role = UserType.Default
-};
+    public static void Main()
+    {
+        //INIT OF SERVICES
+        var propertyOwnerService = new PropertyOwnerService();
+        var propertyItemService = new PropertyItemService();
+        var repairService = new RepairService();
+
+        var user = new PropertyOwner
+        {
+            VATNumber = "123456789",
+            Name = "Makis",
+            Surname = "Doe",
+            Address = "123 Main Street, Athens, Greece",
+            PhoneNumber = 2101234567,
+            Email = "john.doe@example.com",
+            Password = "Password123!",
+            Role = UserType.Admin,
+
+        };
+
+        //GET TEMPORARY OWNERLIST
+        propertyOwnerService.CreateUser(user);
+        var userList = propertyOwnerService.GetAll();
+
+        //edit functionality
+        user.PhoneNumber = 200000;
+        propertyOwnerService.UpdateUser(user);
+        userList = propertyOwnerService.GetAll();
+
+        //Delete function
+        propertyOwnerService.DeleteUser(user);
+        userList = propertyOwnerService.GetAll();
+
+        var item = new PropertyItem
+        {
+            PropertyIdNumber = "3",
+            PropertyAddress = "789 Oak Avenue, Patras, Greece",
+            YearOfConstruction = "2010",
+            PropertyType = TypeOfProperty.DetachedHouse,
+            OwnerVAT = "555666777" // Kostas Nikolopoulos's VATNumber
+        };
+
+
+        //GET TEMPORARY ItemLIST
+        propertyItemService.CreateItem(item);
+        var itemList = propertyItemService.GetAll();
+
+        //edit functionality
+        item.PropertyIdNumber = "5000";
+        propertyItemService.UpdateItem(item);
+        itemList = propertyItemService.GetAll();
+
+        //Delete function
+        propertyItemService.DeleteItem(item);
+        itemList = propertyItemService.GetAll();
 
 
 
+        var repair = new Repair
+        {
+            StartDate = new DateTime(2024, 02, 10),
+            RepairType = TypeOfRepair.ElectricalWork,
+            RepairDescription = "Replaced faulty wiring in living room.",
+            RepairAddress = "456 Elm Street, Thessaloniki, Greece", // Maria's property
+            RepairStatus = StatusOfTheRepair.Complete,
+            CostOfRepair = "200",
+            OwnerVAT = "987654321"
 
+        };
 
-var PropertyOwner1 = new PropertyOwner()
-{
-    VATNumber = 987654321,
-    FirstName = "Jane",
-    LastName = "Smith",
-    Address = "456 Elm St, Rivertown",
-    TelephoneNumber = 5559876,
-    Email = "jane.smith@example.com",
-    Password = "qwerty987",
-    RepairDone = { },
-    PropertyItems = { },
-    Role = UserType.Admin
-};
+        //GET TEMPORARY RepairLIST
+        repairService.CreateRepair(repair);
+        var repairList = repairService.GetAll();
+        
+        //edit functionality
+        repair.RepairAddress = "456 Elm Street, Thessaloniki, Greece";
+        repairService.UpdateRepair(repair);
+        repairList = repairService.GetAll();
 
-
-var PropertyOwner2 = new PropertyOwner()
-{
-    VATNumber = 111222333,
-    FirstName = "Robert",
-    LastName = "Johnson",
-    Address = "789 Pine St, Greenfield",
-    TelephoneNumber = 5554321,
-    Email = "robert.johnson@example.com",
-    Password = "securePass456",
-    RepairDone = { },
-    PropertyItems = { },
-    Role = UserType.Admin
-};
-
-
-
-
-
-
-
-
-
-
-var PropertyOwner3 = new PropertyOwner()
-{
-    VATNumber = 444555666,
-    FirstName = "Emily",
-    LastName = "Clark",
-    Address = "321 Oak St, Blue Hills",
-    TelephoneNumber = 5556789,
-    Email = "emily.clark@example.com",
-    Password = "password!789",
-    RepairDone = { },
-    PropertyItems = { },
-    Role = UserType.Default
-};
-
-
-
-
-
-
-var PropertyOwner4 = new PropertyOwner()
-{
-    VATNumber = 777888999,
-    FirstName = "David",
-    LastName = "Lee",
-    Address = "654 Cedar St, Lakeside",
-    TelephoneNumber = 5558765,
-    Email = "david.lee@example.com",
-    Password = "david@2024",
-    RepairDone = { },
-    PropertyItems = { },
-    Role = UserType.Admin
-};
-
-Console.WriteLine();
-
-
-//-------------------------PROPERTY ITEM-------------------------------------
-
-var PropertyItem = new PropertyItem()
-{
-    PropertIdNumber = 8080,
-    PropertyAddress = "123 Main St, Springfield",
-    YearOfConstruction = 2011,
-    PropertyType = TypeOfProperty.ApartmentBuilding,
-    VATNumber = 123456789
-
-};
-
-var PropertyItem1 = new PropertyItem()
-{
-    PropertIdNumber = 2143,
-    PropertyAddress = "456 Elm St, Rivertown",
-    YearOfConstruction = 2000,
-    PropertyType = TypeOfProperty.ApartmentBuilding,
-    VATNumber = 987654321
-
-};
-
-var PropertyItem2 = new PropertyItem()
-{
-    PropertIdNumber = 2010,
-    PropertyAddress = "789 Pine St, Greenfield",
-    YearOfConstruction = 2019,
-    PropertyType = TypeOfProperty.DetachedHouse,
-    VATNumber = 111222333
-
-};
-
-var PropertyItem3 = new PropertyItem()
-{
-    PropertIdNumber = 1020,
-    PropertyAddress = "321 Oak St, Blue Hills",
-    YearOfConstruction = 2005,
-    PropertyType = TypeOfProperty.DetachedHouse,
-    VATNumber = 444555666
-
-};
-
-var PropertyItem4 = new PropertyItem()
-{
-    PropertIdNumber = 5068,
-    PropertyAddress = "654 Cedar St, Lakeside",
-    YearOfConstruction = 1999,
-    PropertyType = TypeOfProperty.Maisonet,
-    VATNumber = 777888999
-
-};
-
-
-
-//----------------------REPAIR--------------------------
-
-var Repair = new Repair()
-{
-    StartDate = new DateTime(2024, 4, 12),
-    RepairType = TypeOfRepair.Frames,
-    RepairDescription = "Replacing window and door frames throughout the house.",
-    RepairAddress = "123 Main St, Springfield",
-    RepairStatus = StatusOfTheRepair.Complete,
-    CostOfRepair = 2700,
-    OwnerVAT = 123456789,
-    PropertyType = TypeOfProperty.ApartmentBuilding
-};
-
-
-var Repair1 = new Repair()
-{
-    StartDate = new DateTime(2024, 3, 20),
-    RepairType = TypeOfRepair.Insulation,
-    RepairDescription = "Installing insulation in the attic for better energy efficiency.",
-    RepairAddress = "456 Elm St, Rivertown",
-    RepairStatus = StatusOfTheRepair.Inprogress,
-    CostOfRepair = 2700,
-    OwnerVAT = 987654321,
-    PropertyType = TypeOfProperty.ApartmentBuilding
-};
-
-
-
-
-var Repair2 = new Repair()
-{
-    StartDate = new DateTime(2023, 12, 5),
-    RepairType = TypeOfRepair.ElectricalWork,
-    RepairDescription = "Rewiring and installation of new lighting fixtures.",
-    RepairAddress = "789 Pine St, Greenfield",
-    RepairStatus = StatusOfTheRepair.Inprogress,
-    CostOfRepair = 1800,
-    OwnerVAT = 111222333,
-    PropertyType = TypeOfProperty.DetachedHouse
-};
-
-
-
-
-
-var Repair3 = new Repair()
-{
-    StartDate = new DateTime(2024, 2, 10),
-    RepairType = TypeOfRepair.Plumbing,
-    RepairDescription = "Fixing leaky pipes in the kitchen and bathroom.",
-    RepairAddress = "321 Oak St, Blue Hills",
-    RepairStatus = StatusOfTheRepair.Pending,
-    CostOfRepair = 2200,
-    OwnerVAT = 444555666,
-    PropertyType = TypeOfProperty.DetachedHouse
-};
-
-
-
-
-
-
-
-var Repair4 = new Repair()
-{
-    StartDate = new DateTime(2024, 2, 10),
-    RepairType = TypeOfRepair.Painting,
-    RepairDescription = "Repainting of living room and bedrooms.",
-    RepairAddress = "654 Cedar St, Lakeside",
-    RepairStatus = StatusOfTheRepair.Complete,
-    CostOfRepair = 1500,
-    OwnerVAT = 777888999,
-    PropertyType = TypeOfProperty.Maisonet
-};
-
+        //Delete function
+        repairService.DeleteRepair(repair);
+        repairList = repairService.GetAll();
+    }
+}
 
 
 

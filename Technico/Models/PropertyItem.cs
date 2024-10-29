@@ -11,13 +11,11 @@ namespace Technico.Models;
 
 public class PropertyItem
 {
-    public int PropertIdNumber { get; set; } 
-    public string PropertyAddress { get; set; } = null! ;
-    public int YearOfConstruction { get; set; }
+    public string PropertyIdNumber { get; set; } = null!;
+    public string PropertyAddress { get; set; } = null!;
+    public string YearOfConstruction { get; set; } = null!;
     public TypeOfProperty PropertyType { get; set; }
-    public int VATNumber { get; set; } 
-
-    
+    public string OwnerVAT { get; set; } = null!;
 }
 
 
