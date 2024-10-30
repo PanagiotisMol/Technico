@@ -45,7 +45,7 @@ public class Program
 
         var item = new PropertyItem
         {
-            PropertyIdNumber = "3",
+            PropertyIdNumber = "3000",
             PropertyAddress = "789 Oak Avenue, Patras, Greece",
             YearOfConstruction = "2010",
             PropertyType = TypeOfProperty.DetachedHouse,
@@ -58,7 +58,7 @@ public class Program
         var itemList = propertyItemService.GetAll();
 
         //edit functionality
-        item.PropertyIdNumber = "5000";
+        item.PropertyAddress = "798 Oak Avenue, Patras, Greece";
         propertyItemService.UpdateItem(item);
         itemList = propertyItemService.GetAll();
 

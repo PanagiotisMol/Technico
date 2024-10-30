@@ -93,7 +93,7 @@ public class PropertyItemService : IPropertyItemService
             return null;
         }
 
-        var selectedItem = TempData.PropertyItems.Find(x => x.OwnerVAT == item.OwnerVAT);
+        var selectedItem = TempData.PropertyItems.Find(x => x.PropertyIdNumber == item.PropertyIdNumber);
         if (selectedItem != null)
         {
             TempData.PropertyItems.Remove(selectedItem);
@@ -108,7 +108,7 @@ public class PropertyItemService : IPropertyItemService
         {
             return null;
         }
-        var selectedItem = TempData.PropertyItems.Find(x => x.OwnerVAT == item.OwnerVAT);
+        var selectedItem = TempData.PropertyItems.Find(x => x.PropertyIdNumber == item.PropertyIdNumber);
         if (selectedItem != null)
         {
             TempData.PropertyItems.Remove(selectedItem);
@@ -120,9 +120,9 @@ public class PropertyItemService : IPropertyItemService
         return TempData.PropertyItems;
 
     }
-    public PropertyItem? GetOne(string VAT)
+    public PropertyItem? GetOne(string PropertyIdNumber)
     {
-        var selectedItem = TempData.PropertyItems.Find(x => x.OwnerVAT == VAT);
+        var selectedItem = TempData.PropertyItems.Find(x => x.PropertyIdNumber == PropertyIdNumber);
 
         return selectedItem;
     }

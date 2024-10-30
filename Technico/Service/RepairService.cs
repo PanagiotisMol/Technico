@@ -76,7 +76,7 @@ public class RepairService : IRepairService
             return null;
         }
 
-        var selectedRepair = TempData.Repairs.Find(x => x.OwnerVAT == work.OwnerVAT);
+        var selectedRepair = TempData.Repairs.Find(x => x.RepairId == work.RepairId);
         if (selectedRepair != null)
         {
             TempData.Repairs.Remove(selectedRepair);
@@ -91,7 +91,7 @@ public class RepairService : IRepairService
         {
             return null;
         }
-        var selectedRepair = TempData.Repairs.Find(x => x.OwnerVAT == work.OwnerVAT);
+        var selectedRepair = TempData.Repairs.Find(x => x.RepairId == work.RepairId);
         if (selectedRepair != null)
         {
             TempData.Repairs.Remove(selectedRepair);
@@ -103,9 +103,9 @@ public class RepairService : IRepairService
         return TempData.Repairs;
 
     }
-    public Repair? GetOne(string VAT)
+    public Repair? GetOne(string RepairId)
     {
-        var selectedRepair = TempData.Repairs.Find(x => x.OwnerVAT == VAT);
+        var selectedRepair = TempData.Repairs.Find(x => x.RepairId == RepairId);
 
         return selectedRepair;
     }

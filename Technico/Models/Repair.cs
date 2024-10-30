@@ -10,6 +10,7 @@ namespace Technico.Models;
 
 public class Repair
 {
+    public string RepairId { get; set; } = null!;
     public DateTime StartDate { get; set; }
     public TypeOfRepair RepairType { get; set; }
 
