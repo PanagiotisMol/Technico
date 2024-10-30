@@ -15,7 +15,7 @@ namespace Technico.Service;
 
 
 
-public class PropertyOwnerService
+public class PropertyOwnerService : IPropertyOwnerService
 {
 
     public TempData TempData = new TempData();
@@ -23,7 +23,7 @@ public class PropertyOwnerService
     private List<string> ValidateUser(PropertyOwner user)
     {
         var errors = new List<string>();
-        
+
 
         // Validate Email
         if (string.IsNullOrWhiteSpace(user.Email))

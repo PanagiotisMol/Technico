@@ -10,122 +10,122 @@ using Technico.Models;
 
 namespace Technico.Service;
 
-public class PropertyItemService
+public class PropertyItemService : IPropertyItemService
 {
 
     public TempData TempData = new TempData();
 
-    
-    
-        private List<string> ValidateItem(PropertyItem item)
+
+
+    private List<string> ValidateItem(PropertyItem item)
+    {
+        var errors = new List<string>();
+
+
+        // Validate PropertyIdNumber
+        if (string.IsNullOrWhiteSpace(item.PropertyIdNumber))
         {
-            var errors = new List<string>();
-            
-
-            // Validate PropertyIdNumber
-            if (string.IsNullOrWhiteSpace(item.PropertyIdNumber))
-            {
-                errors.Add("PropertyIdNumber is required.");
-            }
-            else if (item.PropertyIdNumber.Length  != 4 )
-            {
-                errors.Add("PropertyIdNumber must be  4 digits.");
-            }
-            if (!long.TryParse(item.YearOfConstruction, out _))
-            {
-                errors.Add("PropertyIdNumber  must be   numeric.");
-            }
-
-
-            // Validate PropertyAdress
-            if (string.IsNullOrWhiteSpace(item.PropertyAddress))
-            {
-                errors.Add("PropertyAddress is required.");
-            }
-            
-
-            //Validate YearOfConstruction
-            if (string.IsNullOrWhiteSpace(item.YearOfConstruction))
-            {
-                errors.Add("YearOfConstruction is required.");
-
-            }
-            if (!long.TryParse(item.YearOfConstruction, out _))
-            {
-                errors.Add("YearOfConstruction  must be numeric.");
-            }
-
-            //Validate VatNumber
-            if (string.IsNullOrWhiteSpace(item.OwnerVAT))
-            {
-                errors.Add("VAT number is required.");
-
-            }
-
-            // Check if the VAT number is exactly 9 digits long and numeric
-            if (item.OwnerVAT.Length != 9 || !long.TryParse(item.OwnerVAT, out _))
-            {
-                errors.Add("VAT number must be exactly 9 digits long and numeric.");
-
-            }
-
-            return errors;
-
-            
+            errors.Add("PropertyIdNumber is required.");
         }
-        public PropertyItem? CreateItem(PropertyItem item)
+        else if (item.PropertyIdNumber.Length != 4)
         {
-            var errors = ValidateItem(item);
-            if (errors.Count > 0)
-            {
-                return null;
-            }
-
-            TempData.PropertyItems.Add(item);
-
-            return item;
+            errors.Add("PropertyIdNumber must be  4 digits.");
         }
-        public PropertyItem? UpdateItem(PropertyItem item)
+        if (!long.TryParse(item.YearOfConstruction, out _))
         {
-            var errors = ValidateItem(item);
-            if (errors.Count > 0)
-            {
-                return null;
-            }
+            errors.Add("PropertyIdNumber  must be   numeric.");
+        }
 
-            var selectedItem = TempData.PropertyItems.Find(x => x.OwnerVAT == item.OwnerVAT);
-            if (selectedItem != null)
-            {
-                TempData.PropertyItems.Remove(selectedItem);
-            }
-            TempData.PropertyItems.Add(item);
-            return item;
-        }
-        public PropertyItem? DeleteItem(PropertyItem item)
+
+        // Validate PropertyAdress
+        if (string.IsNullOrWhiteSpace(item.PropertyAddress))
         {
-            var errors = ValidateItem(item);
-            if (errors.Count > 0)
-            {
-                return null;
-            }
-            var selectedItem = TempData.PropertyItems.Find(x => x.OwnerVAT == item.OwnerVAT);
-            if (selectedItem != null)
-            {
-                TempData.PropertyItems.Remove(selectedItem);
-            }
-            return item;
+            errors.Add("PropertyAddress is required.");
         }
-        public List<PropertyItem> GetAll()
+
+
+        //Validate YearOfConstruction
+        if (string.IsNullOrWhiteSpace(item.YearOfConstruction))
         {
-            return TempData.PropertyItems;
+            errors.Add("YearOfConstruction is required.");
 
         }
-        public PropertyItem? GetOne(string VAT)
+        if (!long.TryParse(item.YearOfConstruction, out _))
         {
-            var selectedItem = TempData.PropertyItems.Find(x => x.OwnerVAT == VAT);
-
-            return selectedItem;
+            errors.Add("YearOfConstruction  must be numeric.");
         }
+
+        //Validate VatNumber
+        if (string.IsNullOrWhiteSpace(item.OwnerVAT))
+        {
+            errors.Add("VAT number is required.");
+
+        }
+
+        // Check if the VAT number is exactly 9 digits long and numeric
+        if (item.OwnerVAT.Length != 9 || !long.TryParse(item.OwnerVAT, out _))
+        {
+            errors.Add("VAT number must be exactly 9 digits long and numeric.");
+
+        }
+
+        return errors;
+
+
+    }
+    public PropertyItem? CreateItem(PropertyItem item)
+    {
+        var errors = ValidateItem(item);
+        if (errors.Count > 0)
+        {
+            return null;
+        }
+
+        TempData.PropertyItems.Add(item);
+
+        return item;
+    }
+    public PropertyItem? UpdateItem(PropertyItem item)
+    {
+        var errors = ValidateItem(item);
+        if (errors.Count > 0)
+        {
+            return null;
+        }
+
+        var selectedItem = TempData.PropertyItems.Find(x => x.OwnerVAT == item.OwnerVAT);
+        if (selectedItem != null)
+        {
+            TempData.PropertyItems.Remove(selectedItem);
+        }
+        TempData.PropertyItems.Add(item);
+        return item;
+    }
+    public PropertyItem? DeleteItem(PropertyItem item)
+    {
+        var errors = ValidateItem(item);
+        if (errors.Count > 0)
+        {
+            return null;
+        }
+        var selectedItem = TempData.PropertyItems.Find(x => x.OwnerVAT == item.OwnerVAT);
+        if (selectedItem != null)
+        {
+            TempData.PropertyItems.Remove(selectedItem);
+        }
+        return item;
+    }
+    public List<PropertyItem> GetAll()
+    {
+        return TempData.PropertyItems;
+
+    }
+    public PropertyItem? GetOne(string VAT)
+    {
+        var selectedItem = TempData.PropertyItems.Find(x => x.OwnerVAT == VAT);
+
+        return selectedItem;
+    }
 }
 
 

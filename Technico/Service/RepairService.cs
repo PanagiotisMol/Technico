@@ -10,7 +10,7 @@ using Technico.Models;
 
 namespace Technico.Service;
 
-public class RepairService
+public class RepairService : IRepairService
 
 {
 
@@ -26,14 +26,14 @@ public class RepairService
         {
             errors.Add("RepairDescription is required.");
         }
-        
+
 
         // Validate RepairAddress
         if (string.IsNullOrWhiteSpace(work.RepairAddress))
         {
             errors.Add("RepairAddress is required.");
         }
-        
+
 
         //Validate CostOfRepair
         if (string.IsNullOrWhiteSpace(work.CostOfRepair))
@@ -68,7 +68,7 @@ public class RepairService
 
         return work;
     }
-    public Repair?  UpdateRepair(Repair work)
+    public Repair? UpdateRepair(Repair work)
     {
         var errors = ValidateRepair(work);
         if (errors.Count > 0)
