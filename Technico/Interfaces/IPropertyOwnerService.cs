@@ -1,6 +1,6 @@
 ﻿using Technico.Models;
 
-namespace Technico.Service
+namespace Technico.Interfaces
 {
     public interface IPropertyOwnerService
     {

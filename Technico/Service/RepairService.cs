@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Technico.DataBase;
 using Technico.Enums;
+using Technico.Interfaces;
 using Technico.Models;
 
 namespace Technico.Service;

@@ -6,8 +6,8 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Technico.DataBase;
+using Technico.Interfaces;
 using Technico.Models;
-using Technico.Service;
 
 
 
